@@ -9,15 +9,20 @@
 
 class Game {
     public:
-        ~Game() = default;
+        ~Game();
 
-        void run();
-        SDL_Renderer* getRenderer();
-        State& getState();
-        static Game& getInstance();
+        void            run();
+        SDL_Renderer*   getRenderer();
+        State&          getState();
+        static Game&    getInstance();
 
     private:
         Game(std::string title, int width, int heigth);
+
+        static Game*    instance;
+        SDL_Window*     window;
+        SDL_Renderer*   renderer;
+        State*          state;
 };
 
 
