@@ -1,10 +1,11 @@
 #include <State.h>
 #include <SDL2/SDL.h>
+#include <Game.h>
 
 
-State::State(SDL_Renderer* renderer) {
-    quitRequestedFlag = false;
-    this->renderer = renderer;
+State::State() : bg(), music(), quitRequestedFlag(false) {
+    loadAssets();
+    music.play();
 };
 
 bool State::quitRequested() {
@@ -12,7 +13,8 @@ bool State::quitRequested() {
 };
 
 void State::loadAssets() {
-
+    bg.open("recursos/img/Background.png");
+    music.open("recursos/audio/BGM.wav");
 };
 
 void State::update(float dt) {
@@ -26,6 +28,5 @@ void State::update(float dt) {
 };
 
 void State::render() {
-    SDL_SetRenderDrawColor(renderer, 50, 100, 255, 255);  // Define a cor (Azul)
-    SDL_RenderClear(renderer);                            // Limpa a tela com essa cor
+    bg.render(0, 0);
 };

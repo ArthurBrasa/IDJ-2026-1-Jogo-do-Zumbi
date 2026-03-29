@@ -7,11 +7,12 @@
 Game* Game::instance = nullptr;
 
 Game::~Game() {
-    delete state; // Sempre delete os ponteiros que você deu 'new'
+    delete state;
+    Mix_CloseAudio();
+    Mix_Quit();
+    IMG_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    IMG_Quit();
-    Mix_Quit();
     SDL_Quit();
 }
 
@@ -85,14 +86,14 @@ Game::Game(std::string title, int width, int height) {
         exit(-1);
     }
 
-    state = new State(renderer);
+    state = new State();
 };
 
 // singleton
 Game& Game::getInstance() {
 
     if (instance == nullptr) {
-        instance = new Game("Arthur Brasa de Carvalho - 202006582", 800, 600);
+        instance = new Game("Arthur Brasa de Carvalho - 202006582", 1200, 900);
     }
 
     return *instance;

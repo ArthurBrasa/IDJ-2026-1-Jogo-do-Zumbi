@@ -6,7 +6,7 @@
 
 class State {
     public:
-        State(SDL_Renderer* renderer);
+        State();
         // ~State();
         bool quitRequested();
         void loadAssets();
@@ -16,7 +16,6 @@ class State {
         Sprite  bg;
         Music   music;
         bool    quitRequestedFlag;
-        SDL_Renderer* renderer;
 
 };
 

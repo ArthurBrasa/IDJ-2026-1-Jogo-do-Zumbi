@@ -1,6 +1,7 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 #include <iostream>
+#include <SDL2/SDL_image.h>
 
 class Sprite {
     public:
