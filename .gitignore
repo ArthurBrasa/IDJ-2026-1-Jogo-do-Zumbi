@@ -3,3 +3,4 @@ game
 bin/
 dep/
 JOGO
+.DS_Store
