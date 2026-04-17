@@ -30,3 +30,13 @@ void State::update(float dt) {
 void State::render() {
     bg.render(0, 0);
 };
+
+void State::addObject(GameObject* go) {
+    objectArray.push_back(go);
+}
+
+State::~State() {
+    for (GameObject* go : objectArray) {
+        delete go;
+    }
+}
