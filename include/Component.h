@@ -1,6 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
-#include <GameObject.h>
+
+class GameObject; // ← 🔥 forward declaration
 
 class Component {
     public:
