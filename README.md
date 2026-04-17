@@ -21,3 +21,6 @@ ifeq ($(UNAME_S), Darwin)
     LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 endif
 ```
+
+
+● Soma de Rect com Vec2
