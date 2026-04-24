@@ -2,6 +2,7 @@
 #define GAMEOBJECT_H
 
 #include <vector>
+#include <algorithm>
 #include <Rect.h>
 #include <Component.h>
 
@@ -10,32 +11,29 @@ class GameObject{
         GameObject();
         ~GameObject();
 
-        // + Update(dt : float) : void
         void update(float dt);
         void render();
 
-        // + IsDead() : bool
         bool isDead() const;
-
-        // + RequestDelete() : void
         void requestDelete();
 
-        // + AddComponent(cpt : Component*) : void
         void addComponent(Component* cpt);
-
-        // + RemoveComponent(cpt : Component*) : void
         void removeComponent(Component* cpt);
 
-        // + GetComponent<T>() : T*
-        template<typename T> T* getComponent() const;
+        template<typename T> T* getComponent() const {
+            for (Component* cpt : components) {
+                T* casted = dynamic_cast<T*>(cpt);
+                if (casted) {
+                    return casted;
+                }
+            }
+            return nullptr;
+        }
 
-        // + box : Rect
         Rect box;
     private:
-        // std::vector<Component*> components;
         std::vector<Component*> components;
         bool isDeadFlag;
-
 };
 
 #endif

@@ -6,20 +6,26 @@
 class Sprite {
     public:
         Sprite();
-        Sprite(std::string file);
+        Sprite(std::string file, int frameCountW = 1, int frameCountH = 1);
         ~Sprite();
 
         void open(std::string file);
         void setClip(int x, int y, int w, int h);
         void render(int x, int y);
+        void render(int x, int y, int w, int h);
         int getWidth();
         int getHeight();
         bool isOpen();
+
+        void setFrame(int frame);
+        void setFrameCount(int frameCountW, int frameCountH);
     private:
         SDL_Texture* texture;
         SDL_Rect clipRect;
         int width;
         int height;
+        int frameCountW;
+        int frameCountH;
 };
 
 

@@ -4,9 +4,10 @@
 GameObject::GameObject() : box(0, 0, 0, 0), isDeadFlag(false) {}
 
 GameObject::~GameObject() {
-    for (Component* cpt : components) {
-        delete cpt;
+    for (int i = (int)components.size() - 1; i >= 0; --i) {
+        delete *(components.begin() + i);
     }
+    components.clear();
 }
 
 void GameObject::update(float dt) {
@@ -36,18 +37,6 @@ void GameObject::addComponent(Component* cpt) {
 void GameObject::removeComponent(Component* cpt) {
     auto it = std::find(components.begin(), components.end(), cpt);
     if (it != components.end()) {
-        delete *it; // Free the memory of the component
-        components.erase(it); // Remove the pointer from the vector
+        components.erase(it);
     }
-}
-
-template<typename T>
-T* GameObject::getComponent() const {
-    for (Component* cpt : components) {
-        T* casted = dynamic_cast<T*>(cpt);
-        if (casted) {
-            return casted;
-        }
-    }
-    return nullptr;
 }
