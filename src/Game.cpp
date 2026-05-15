@@ -1,4 +1,5 @@
 #include <Game.h>
+#include <Resources.h>
 #include <iostream>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -107,11 +108,14 @@ void Game::run() {
     while (!state->quitRequested()) {
         state->update(0); // dt é 0 por enquanto
         state->render();  // O State desenha as coisas (bg)
-        
+
         SDL_RenderPresent(renderer); // O Game apresenta o desenho na tela
         SDL_Delay(33);               // Limite de ~30 FPS
     }
 
+    Resources::ClearImages();
+    Resources::ClearMusics();
+    Resources::ClearSounds();
 };
 
 //

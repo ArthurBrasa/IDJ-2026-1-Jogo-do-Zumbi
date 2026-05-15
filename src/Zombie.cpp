@@ -4,7 +4,8 @@
 #include <Animator.h>
 #include <Animation.h>
 
-Zombie::Zombie(GameObject& associated) : Component(associated), hitpoints(100) {
+Zombie::Zombie(GameObject& associated)
+    : Component(associated), hitpoints(100), deathSound("recursos/audio/Dead.wav") {
     SpriteRenderer* sr = new SpriteRenderer(associated, "recursos/img/Enemy.png", 3, 2);
     sr->setFrame(1);
     associated.addComponent(sr);
@@ -17,6 +18,7 @@ Zombie::Zombie(GameObject& associated) : Component(associated), hitpoints(100) {
 }
 
 void Zombie::damage(int damage) {
+    bool wasAlive = hitpoints > 0;
     hitpoints -= damage;
     if (hitpoints <= 0) {
         Animator* anim = associated.getComponent<Animator>();
@@ -27,6 +29,9 @@ void Zombie::damage(int damage) {
             if (sr) {
                 sr->setFrame(5);
             }
+        }
+        if (wasAlive) {
+            deathSound.play(1);
         }
     }
 }

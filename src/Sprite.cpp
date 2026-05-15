@@ -1,5 +1,6 @@
 #include <Sprite.h>
 #include <Game.h>
+#include <Resources.h>
 
 Sprite::Sprite() {
     texture = nullptr;
@@ -16,23 +17,12 @@ Sprite::Sprite(std::string file, int frameCountW, int frameCountH) : Sprite() {
     open(file);
 }
 
-Sprite::~Sprite() {
-    if (texture) {
-        SDL_DestroyTexture(texture);
-    }
-}
+Sprite::~Sprite() {}
 
 void Sprite::open(std::string file) {
-    if (texture) {
-        SDL_DestroyTexture(texture);
-    }
-
-    SDL_Renderer* renderer = Game::getInstance().getRenderer();
-    texture = IMG_LoadTexture(renderer, file.c_str());
+    texture = Resources::GetImage(file);
 
     if (!texture) {
-        std::cout << "Failed to load texture: " << file << std::endl;
-        std::cout << "SDL_Error: " << SDL_GetError() << std::endl;
         return;
     }
 

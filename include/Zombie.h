@@ -2,6 +2,7 @@
 #define ZOMBIE_H
 
 #include <Component.h>
+#include <Sound.h>
 
 class Zombie : public Component {
     public:
@@ -12,7 +13,8 @@ class Zombie : public Component {
         void render() override;
 
     private:
-        int hitpoints;
+        int   hitpoints;
+        Sound deathSound;
 };
 
 #endif
