@@ -1,5 +1,6 @@
 #include <Game.h>
 #include <Resources.h>
+#include <InputManager.h>
 #include <iostream>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -18,7 +19,8 @@ Game::~Game() {
 }
 
 // construtor
-Game::Game(std::string title, int width, int height) {
+Game::Game(std::string title, int width, int height)
+    : screenWidth(width), screenHeight(height), frameStart(0), dt(0) {
     if (instance != nullptr) {
         std::cout << "Error: Game instance already exists!" << std::endl;
         exit(-1);
@@ -102,15 +104,28 @@ Game& Game::getInstance() {
 
 
 // 
+void Game::calculateDeltaTime() {
+    int now = (int)SDL_GetTicks();
+    dt = (now - frameStart) / 1000.0f;
+    frameStart = now;
+}
+
+float Game::getDeltaTime() const { return dt; }
+int   Game::getWidth()     const { return screenWidth; }
+int   Game::getHeight()    const { return screenHeight; }
+
 void Game::run() {
     std::cout << "Running Game..." << std::endl;
+    frameStart = (int)SDL_GetTicks();
 
     while (!state->quitRequested()) {
-        state->update(0); // dt é 0 por enquanto
-        state->render();  // O State desenha as coisas (bg)
+        calculateDeltaTime();
+        InputManager::GetInstance().update();
+        state->update(dt);
+        state->render();
 
-        SDL_RenderPresent(renderer); // O Game apresenta o desenho na tela
-        SDL_Delay(33);               // Limite de ~30 FPS
+        SDL_RenderPresent(renderer);
+        SDL_Delay(33);
     }
 
     Resources::ClearImages();

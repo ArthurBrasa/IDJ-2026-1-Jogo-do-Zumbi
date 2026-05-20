@@ -14,6 +14,7 @@ class SpriteRenderer : public Component {
         void open(std::string file);
         void setFrameCount(int frameCountW, int frameCountH);
         void setFrame(int frame);
+        void setCameraFollower(bool value);
 
         void update(float dt) override;
         void render() override;

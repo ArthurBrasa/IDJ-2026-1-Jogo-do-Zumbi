@@ -5,6 +5,8 @@
 #include <Zombie.h>
 #include <TileMap.h>
 #include <TileSet.h>
+#include <InputManager.h>
+#include <Camera.h>
 
 State::State() : music(), quitRequestedFlag(false) {
     loadAssets();
@@ -12,6 +14,7 @@ State::State() : music(), quitRequestedFlag(false) {
 
     GameObject* bgObject = new GameObject();
     SpriteRenderer* bgSprite = new SpriteRenderer(*bgObject, "recursos/img/Background.png");
+    bgSprite->setCameraFollower(true);
     bgObject->addComponent(bgSprite);
     bgObject->box.x = 0;
     bgObject->box.y = 0;
@@ -23,24 +26,6 @@ State::State() : music(), quitRequestedFlag(false) {
     mapObject->box.x = 0;
     mapObject->box.y = 0;
     addObject(mapObject);
-
-    GameObject* zombieObject = new GameObject();
-    zombieObject->addComponent(new Zombie(*zombieObject));
-    zombieObject->box.x = 600;
-    zombieObject->box.y = 450;
-    addObject(zombieObject);
-
-    GameObject* zombieObject2 = new GameObject();
-    zombieObject2->addComponent(new Zombie(*zombieObject2));
-    zombieObject2->box.x = 300;
-    zombieObject2->box.y = 200;
-    addObject(zombieObject2);
-
-    GameObject* zombieObject3 = new GameObject();
-    zombieObject3->addComponent(new Zombie(*zombieObject3));
-    zombieObject3->box.x = 900;
-    zombieObject3->box.y = 600;
-    addObject(zombieObject3);
 };
 
 bool State::quitRequested() {
@@ -52,13 +37,23 @@ void State::loadAssets() {
 };
 
 void State::update(float dt) {
-    SDL_Event event;
+    InputManager& im = InputManager::GetInstance();
 
-    while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT) {
-            quitRequestedFlag = true;
-        }
+    if (im.quitRequested() || im.keyPress(ESCAPE_KEY)) {
+        quitRequestedFlag = true;
+        return;
     }
+
+    if (im.keyPress(SDLK_SPACE)) {
+        Camera& cam = Camera::GetInstance();
+        GameObject* zombie = new GameObject();
+        zombie->addComponent(new Zombie(*zombie));
+        zombie->box.x = im.getMouseX() + cam.pos.x - zombie->box.w / 2.0f;
+        zombie->box.y = im.getMouseY() + cam.pos.y - zombie->box.h / 2.0f;
+        addObject(zombie);
+    }
+
+    Camera::GetInstance().update(dt);
 
     for (unsigned i = 0; i < objectArray.size(); ++i) {
         objectArray[i]->update(dt);
