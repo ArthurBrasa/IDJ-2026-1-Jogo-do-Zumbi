@@ -7,12 +7,11 @@ Animator::Animator(GameObject& associated)
       frameTime(0), currentFrame(0), timeElapsed(0) {}
 
 void Animator::update(float dt) {
-    (void)dt;
     if (frameTime == 0) {
         return;
     }
 
-    timeElapsed += 1;
+    timeElapsed += dt;
     int previousFrame = currentFrame;
     if (timeElapsed > frameTime) {
         currentFrame++;

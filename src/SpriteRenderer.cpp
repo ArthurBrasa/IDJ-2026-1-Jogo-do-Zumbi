@@ -26,6 +26,10 @@ void SpriteRenderer::setFrame(int frame) {
     sprite.setFrame(frame);
 }
 
+void SpriteRenderer::setCameraFollower(bool value) {
+    sprite.setCameraFollower(value);
+}
+
 void SpriteRenderer::update(float dt) {
     (void)dt;
 }

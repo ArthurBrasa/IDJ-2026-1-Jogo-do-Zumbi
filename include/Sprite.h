@@ -19,6 +19,7 @@ class Sprite {
 
         void setFrame(int frame);
         void setFrameCount(int frameCountW, int frameCountH);
+        void setCameraFollower(bool value);
     private:
         SDL_Texture* texture;
         SDL_Rect clipRect;
@@ -26,6 +27,7 @@ class Sprite {
         int height;
         int frameCountW;
         int frameCountH;
+        bool cameraFollower;
 };
 
 
